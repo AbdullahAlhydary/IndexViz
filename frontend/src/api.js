@@ -1,11 +1,13 @@
 import axios from 'axios'
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/students'
+
 export const api = axios.create({
-  baseURL: 'http://localhost:8080/api/students',
+  baseURL: API_BASE,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 15000,
+  timeout: 30000,
 })
 
 api.interceptors.response.use(
@@ -20,14 +22,14 @@ api.interceptors.response.use(
 )
 
 export const studentApi = {
-  getAll: () => api.get('/'),
+  getAll: () => api.get(''),
   getStats: () => api.get('/stats'),
   getHashTable: () => api.get('/hash-table'),
   searchById: (id) => api.get(`/search/id/${id}`),
   searchByFirstName: (name) => api.get(`/search/firstName/${name}`),
   searchByLastName: (name) => api.get(`/search/lastName/${name}`),
   getByLevel: (level) => api.get(`/level/${level}`),
-  addStudent: (data) => api.post('/', data),
+  addStudent: (data) => api.post('', data),
   updateStudent: (id, data) => api.put(`/${id}`, data),
   deleteStudent: (id) => api.delete(`/${id}`),
   loadSample: () => api.post('/load-sample'),
